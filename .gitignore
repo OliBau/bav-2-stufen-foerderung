@@ -1,3 +1,9 @@
 node_modules/
 .DS_Store
 *.swp
+
+# Lesbare Quelldateien – nur lokal, nicht im Repo
+src/
+stufen-rechner.html
+stufen-rechner-build.html
+tests/
