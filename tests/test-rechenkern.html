@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Tests – bAV 2-Stufen-Förderung</title>
+<style>
+body { font-family: Arial, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+h1 { color: #003B7E; }
+.pass { color: #27AE60; font-weight: bold; }
+.fail { color: #c0392b; font-weight: bold; }
+.test-group { margin: 1.5rem 0; padding: 1rem; border: 1px solid #D6E8F7; border-radius: 8px; }
+.test-group h2 { font-size: 1rem; color: #4A90C4; margin-bottom: .5rem; }
+.result { font-size: .85rem; padding: .25rem 0; }
+#summary { font-size: 1.2rem; margin-top: 2rem; padding: 1rem; border-radius: 8px; }
+</style>
+</head>
+<body>
+<h1>bAV 2-Stufen-Förderung – Rechenkern-Tests</h1>
+<div id="output"></div>
+<div id="summary"></div>
+
+<script src="../src/fallback-data.js"></script>
+<script src="../src/rechenkern.js"></script>
+<script src="../src/firmensteuern.js"></script>
+<script>
+"use strict";
+
+const out = document.getElementById('output');
+let passed = 0, failed = 0;
+
+function group(name) {
+  const div = document.createElement('div');
+  div.className = 'test-group';
+  div.innerHTML = '<h2>' + name + '</h2>';
+  out.appendChild(div);
+  return div;
+}
+
+function assert(g, desc, actual, expected, tolerance) {
+  tolerance = tolerance || 0.01;
+  const ok = Math.abs(actual - expected) < tolerance;
+  const cls = ok ? 'pass' : 'fail';
+  const status = ok ? 'PASS' : 'FAIL';
+  if (ok) passed++; else failed++;
+  g.innerHTML += '<div class="result"><span class="' + cls + '">[' + status + ']</span> ' +
+    desc + ': erwartet=' + expected + ', erhalten=' + (typeof actual === 'number' ? actual.toFixed(2) : actual) + '</div>';
+}
+
+// ── T1: Firmensteuern – KSt + GewSt ──
+(function() {
+  const g = group('T1: Firmensteuer-Ersparnis');
+  const fs = Firmensteuern.firmensteuerErsparnis(24000, 400);
+
+  assert(g, 'KSt-Satz effektiv', fs.kst_satz_effektiv, 0.15825, 0.0001);
+  assert(g, 'GewSt-Satz effektiv bei HS 400', fs.gewst_satz_effektiv, 0.14, 0.0001);
+  assert(g, 'KSt-Ersparnis', fs.kst_ersparnis, 3798, 1);
+  assert(g, 'GewSt-Ersparnis', fs.gewst_ersparnis, 3360, 1);
+  assert(g, 'Steuerersparnis gesamt', fs.steuerersparnis_gesamt, 7158, 1);
+  assert(g, 'Nettoaufwand', fs.nettoaufwand, 16842, 1);
+  assert(g, 'Effektive Kostenquote', fs.effektive_kostenquote, 0.70175, 0.001);
+})();
+
+// ── T2: Ausschüttungsäquivalenz ──
+(function() {
+  const g = group('T2: Ausschüttungsäquivalenz');
+  const ae = Firmensteuern.ausschuettungsaequivalenz(24000, false, 0);
+
+  assert(g, 'Effektiver AbgSt-Satz (ohne KiSt)', ae.steuer_effektiv, 0.26375, 0.0001);
+  assert(g, 'Brutto-Ausschüttung', ae.brutto_ausschuettung, 32596, 10); // 24000 / 0.73625
+
+  const ae2 = Firmensteuern.ausschuettungsaequivalenz(24000, true, 0.09);
+  assert(g, 'Effektiver AbgSt-Satz (mit KiSt 9%)', ae2.steuer_effektiv, 0.28441, 0.001);
+})();
+
+// ── T3: Grenzsteuersatz ──
+(function() {
+  const g = group('T3: Grenzsteuersatz');
+  const p = PARAMETER_2026_FALLBACK;
+
+  // GGF mit 120.000 EUR Jahresgehalt, StKl 1 → Spitzensteuersatz 42%
+  const gs = Firmensteuern.grenzsteuersatz(120000, 1, p);
+  assert(g, 'Grenzsteuersatz bei 120k, StKl 1', gs, 0.42, 0.01);
+
+  // GGF mit 60.000 EUR → im progressiven Bereich ~35-38%
+  const gs2 = Firmensteuern.grenzsteuersatz(60000, 1, p);
+  assert(g, 'Grenzsteuersatz bei 60k, StKl 1 (30-40%)', gs2 > 0.30 && gs2 < 0.40 ? gs2 : -1, gs2, 0.001);
+})();
+
+// ── T4: Gehaltsäquivalenz ──
+(function() {
+  const g = group('T4: Gehaltsäquivalenz');
+  const p = PARAMETER_2026_FALLBACK;
+  const ge = Firmensteuern.gehaltsaequivalenz(2000, 120000, 1, false, 0, p);
+
+  assert(g, 'Sparbetrag p.m.', ge.sparbetrag_pm, 2000, 0.01);
+  assert(g, 'Brutto > Sparbetrag (Steuer drauf)', ge.brutto_erhoehung_pm > 2000 ? 1 : 0, 1, 0);
+  assert(g, 'Netto = Sparbetrag', ge.netto_pm, 2000, 0.01);
+  // Bei 42% Grenzsteuersatz + SolZ: Brutto ca. 2000 / (1 - 0.4431) ≈ 3591
+  assert(g, 'Brutto-Erhöhung plausibel (3400-3700)', ge.brutto_erhoehung_pm > 3400 && ge.brutto_erhoehung_pm < 3700 ? 1 : 0, 1, 0);
+})();
+
+// ── T5: Produktwahl nach Alter ──
+(function() {
+  const g = group('T5: Produktwahl nach Alter');
+  const regeln = [
+    { produkt: "FondsRente 70%", bis_alter: 55 },
+    { produkt: "AnsparRente", ab_alter: 56 },
+  ];
+
+  const p1 = Rechenkern.waehleProdukt(40, regeln);
+  assert(g, 'Alter 40 → FondsRente 70%', p1 === "FondsRente 70%" ? 1 : 0, 1, 0);
+
+  const p2 = Rechenkern.waehleProdukt(55, regeln);
+  assert(g, 'Alter 55 → FondsRente 70%', p2 === "FondsRente 70%" ? 1 : 0, 1, 0);
+
+  const p3 = Rechenkern.waehleProdukt(56, regeln);
+  assert(g, 'Alter 56 → AnsparRente', p3 === "AnsparRente" ? 1 : 0, 1, 0);
+
+  const p4 = Rechenkern.waehleProdukt(62, regeln);
+  assert(g, 'Alter 62 → AnsparRente', p4 === "AnsparRente" ? 1 : 0, 1, 0);
+})();
+
+// ── T6: DV-Höchstbeitrag ──
+(function() {
+  const g = group('T6: DV-Höchstbeitrag aus Parametern');
+  const p = PARAMETER_2026_FALLBACK;
+  const dvMax = Math.trunc(p.bbg_west * 0.08 / 12);
+  assert(g, 'DV max Monat = 676', dvMax, 676, 0);
+})();
+
+// ── T7: Tarifinterpolation (Rechenkern) ──
+(function() {
+  const g = group('T7: Tarifinterpolation');
+  const p = PARAMETER_2026_FALLBACK;
+  const tab = TARIF_TABELLEN_2026_FALLBACK;
+
+  // Alter 42, FondsRente 70%, Beitrag 200 EUR, Rendite 6,0%
+  const res = Rechenkern.berechne(
+    { geburtsdatum: "01.01.1984", bundesland: "Nordrheinwestfalen", steuerklasse: 1,
+      kirchensteuer: false, kinderfreibetrag: 0, bruttogehalt: 10000, pv_kinder: 0 },
+    [{ name: "Test", gesamtbeitrag: 200, ag_festbetrag: 0, ag_prozent: 0 }],
+    "FondsRente 70%", "6,0", p, tab, 2026
+  );
+
+  assert(g, 'Ergebnis vorhanden', res.length, 1, 0);
+  assert(g, 'Garantiertes Kapital > 0', res[0].garantiertes_kapital > 0 ? 1 : 0, 1, 0);
+  assert(g, 'Kapital inkl. Überschuss > Garantie', res[0].kapital_inkl_ueberschuss > res[0].garantiertes_kapital ? 1 : 0, 1, 0);
+  assert(g, 'Bruttorente > 0', res[0].bruttorente > 0 ? 1 : 0, 1, 0);
+  assert(g, 'Laufzeit = 25', res[0].laufzeit_jahre, 25, 0);
+})();
+
+// ── T8: Vergleich bAV vs. Ausschüttung ──
+(function() {
+  const g = group('T8: Vergleich bAV vs. Ausschüttung');
+  const v = Firmensteuern.vergleich(24000, 400, false, 0);
+
+  assert(g, 'bAV Nettoaufwand < Ausschüttung', v.bav.nettoaufwand < v.ausschuettung.nettoaufwand ? 1 : 0, 1, 0);
+  assert(g, 'Vorteil bAV > 0', v.vorteil_bav > 0 ? 1 : 0, 1, 0);
+  assert(g, 'Ausschüttung Steuerersparnis = 0', v.ausschuettung.steuerersparnis, 0, 0);
+})();
+
+// ── Zusammenfassung ──
+const sum = document.getElementById('summary');
+sum.innerHTML = '<strong>' + passed + ' bestanden, ' + failed + ' fehlgeschlagen</strong> von ' + (passed + failed) + ' Tests';
+sum.style.background = failed === 0 ? '#d4edda' : '#f8d7da';
+sum.style.color = failed === 0 ? '#155724' : '#721c24';
+</script>
+</body>
+</html>

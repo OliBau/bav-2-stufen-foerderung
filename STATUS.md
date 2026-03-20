@@ -7,39 +7,38 @@
 Spezifikation vollständig erarbeitet (Cowork-Session, 20.03.2026).
 Basis: Vorlage Zurich "Firmenfinanzierte bAV" + Rechenkern aus bav-factsheet.
 
+### Phase 1: Implementierung – abgeschlossen (20.03.2026)
+
+Vollständiger interaktiver Rechner implementiert und auf GitHub gepusht.
+
 ---
 
-## Nächster Schritt – Phase 1: Implementierung
+## Nächster Schritt – Browser-Test + Feinschliff
 
-**Übergabe an Claude Code:**
-
-```bash
-cd C:\Users\bauma\Desktop\Claude\projekte\bav-2 Stufen Förderung
-```
-
-Claude liest CLAUDE.md + SPEC.md und beginnt mit Phase 1.
-
-**Startbefehl:**
-> „Lies CLAUDE.md und SPEC.md. Implementiere Phase 1: Single-File-HTML-Rechner
-> nach Spezifikation, mit Rechenkern aus bav-factsheet und Design-System aus
-> bav-dashboard Muster-Dashboard. Starte mit der Projektstruktur und dem Rechenkern."
+Rechner in `stufen-rechner-build.html` (oder `docs/index.html`) im Browser öffnen und testen:
+- Alle 3 Modi (A/B/C) durchspielen
+- Betrachtungen 1-3 prüfen
+- Leistungsdarstellung mit Rendite-Toggle testen
+- Mobile Darstellung prüfen
 
 ---
 
 ## Phasenplan
 
-### Phase 1 – Rechner (Ziel: funktionierendes HTML)
+### Phase 1 – Rechner (Ziel: funktionierendes HTML) ✅
 
-- [ ] Projektstruktur anlegen (`src/`, `tests/`, `build.py`)
-- [ ] Rechenkern kopieren (`bav-factsheet/src/03-rechenkern.js` → `src/rechenkern.js`)
-- [ ] Firmensteuern-Modul neu: `src/firmensteuern.js` (KSt, GewSt, Ausschüttungsäquivalenz)
-- [ ] Eingabeblock implementieren (alle Felder lt. SPEC.md)
-- [ ] Betrachtung 1: Unternehmensebene (KSt + GewSt)
-- [ ] Betrachtung 2: Äquivalenz Gehaltserhöhung
-- [ ] Betrachtung 3: Äquivalenz Gewinnausschüttung (toggle-bar)
-- [ ] Balkendiagramme für Betrachtung 1 (wie bav-dashboard)
-- [ ] Build-Skript + Single-File-Output
-- [ ] GitHub Repo anlegen + GitHub Pages aktivieren
+- [x] Projektstruktur anlegen (`src/`, `tests/`, `build.py`)
+- [x] Rechenkern kopieren (`bav-factsheet/src/03-rechenkern.js` → `src/rechenkern.js`)
+- [x] Firmensteuern-Modul neu: `src/firmensteuern.js` (KSt, GewSt, Ausschüttungsäquivalenz)
+- [x] Eingabeblock implementieren (alle Felder lt. SPEC.md)
+- [x] Betrachtung 1: Unternehmensebene (KSt + GewSt)
+- [x] Betrachtung 2: Äquivalenz Gehaltserhöhung
+- [x] Betrachtung 3: Äquivalenz Gewinnausschüttung (toggle-bar)
+- [x] Balkendiagramme für Betrachtung 1 (wie bav-dashboard)
+- [x] Build-Skript + Single-File-Output
+- [x] GitHub Repo angelegt (`OliBau/bav-2-stufen-foerderung`, privat)
+- [x] Browser-Testdatei (`tests/test-rechenkern.html`)
+- [ ] GitHub Pages aktivieren (Repo auf public setzen)
 
 ### Phase 2 – Informationsteil + Individualisierung
 
@@ -92,5 +91,5 @@ Wenn das Tool steht, wird ein **PDF-Dokument** erstellt, das zwei Zielgruppen be
 
 ## Repository
 
-- GitHub: `OliBau/bav-2-stufen-foerderung` (noch anzulegen, privat → später public für GitHub Pages)
+- GitHub: `OliBau/bav-2-stufen-foerderung` ✅ angelegt (privat)
 - GitHub Pages URL (nach Aktivierung): `https://olibau.github.io/bav-2-stufen-foerderung/`
