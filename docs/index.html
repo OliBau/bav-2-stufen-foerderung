@@ -9419,12 +9419,11 @@ function updateJahresbeitragDisplay() {
     pm = (parseFloat(document.getElementById('dv-beitrag-c').value) || 0) +
          (parseFloat(document.getElementById('uk-beitrag-c').value) || 0);
   }
-  const monate = parseFloat(document.getElementById('monatsgehaelter').value) || 12;
-  const pa = pm * monate;
+  const pa = pm * 12; // bAV-Beiträge immer 12 Monate
   const el = document.getElementById('jahresbeitrag-display');
   if (pm > 0) {
     document.getElementById('jahresbeitrag-value').textContent = fmtEur(pa);
-    document.getElementById('jahresbeitrag-sub').textContent = fmtEurPm(pm) + ' × ' + monate + ' Monate';
+    document.getElementById('jahresbeitrag-sub').textContent = fmtEurPm(pm) + ' × 12 Monate';
     el.style.display = '';
   } else {
     el.style.display = 'none';
@@ -9463,7 +9462,7 @@ document.getElementById('uk-beitrag-c').addEventListener('input', onModusCEinzel
 document.getElementById('uk-beitrag-a').addEventListener('input', updateJahresbeitragDisplay);
 document.getElementById('dv-beitrag-b').addEventListener('input', updateJahresbeitragDisplay);
 document.getElementById('uk-beitrag-b').addEventListener('input', updateJahresbeitragDisplay);
-document.getElementById('monatsgehaelter').addEventListener('input', updateJahresbeitragDisplay);
+// monatsgehaelter beeinflusst nur das Jahresgehalt (Steuer), nicht die bAV-Beiträge
 
 // ── HAUPTBERECHNUNG ──
 function berechnen() {
@@ -9494,8 +9493,8 @@ function berechnen() {
   if (beitragStufe1 + beitragStufe2 <= 0) { alert('Bitte mindestens einen Beitrag eingeben.'); return; }
 
   const beitragNeuPm = beitragStufe1 + beitragStufe2;
-  const beitragNeuPa = beitragNeuPm * monatsgehaelter;
-  const jahresgehalt = monatsgehalt * monatsgehaelter;
+  const beitragNeuPa = beitragNeuPm * 12; // bAV-Beiträge immer 12 Monate
+  const jahresgehalt = monatsgehalt * monatsgehaelter; // Gehalt kann 13/14 Monate sein
   const bl = BUNDESLAENDER[bundesland];
   const kistSatz = bl.kirchensteuer_satz;
 
@@ -9508,7 +9507,7 @@ function berechnen() {
   letzteEingaben = eingaben;
 
   const firmensteuer = Firmensteuern.firmensteuerErsparnis(beitragNeuPa, hebesatz);
-  renderBetrachtung1(firmensteuer, beitragStufe1, beitragStufe2, monatsgehaelter);
+  renderBetrachtung1(firmensteuer, beitragStufe1, beitragStufe2);
 
   const gehalt = Firmensteuern.gehaltsaequivalenz(
     beitragNeuPm, jahresgehalt, steuerklasse, kirchensteuer, kistSatz, PARAMETER
@@ -9527,7 +9526,7 @@ function berechnen() {
 }
 
 // ── Render: Betrachtung 1 (Punkte 7, 8, 9) ──
-function renderBetrachtung1(fs, stufe1, stufe2, monate) {
+function renderBetrachtung1(fs, stufe1, stufe2) {
   const total = fs.beitrag_pa;
   const kstPct = fs.kst_ersparnis / total * 100;
   const gewstPct = fs.gewst_ersparnis / total * 100;
@@ -9573,7 +9572,7 @@ function renderBetrachtung1(fs, stufe1, stufe2, monate) {
 
   let stufeInfo = '';
   if (stufe1 > 0 && stufe2 > 0) {
-    stufeInfo = '<span class="breakdown-hint">[Stufe 1: ' + fmtEur(stufe1 * monate) + ' / Stufe 2: ' + fmtEur(stufe2 * monate) + ']</span>';
+    stufeInfo = '<span class="breakdown-hint">[Stufe 1: ' + fmtEur(stufe1 * 12) + ' / Stufe 2: ' + fmtEur(stufe2 * 12) + ']</span>';
   }
 
   document.getElementById('breakdown-firmensteuer').innerHTML =
