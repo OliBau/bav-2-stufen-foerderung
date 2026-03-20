@@ -10,16 +10,19 @@ Basis: Vorlage Zurich "Firmenfinanzierte bAV" + Rechenkern aus bav-factsheet.
 ### Phase 1: Implementierung – abgeschlossen (20.03.2026)
 
 Vollständiger interaktiver Rechner implementiert und auf GitHub gepusht.
+- v1: Grundimplementierung aller Betrachtungen + Leistungsdarstellung
+- v2: 19 Feedback-Punkte umgesetzt (Wasserfall, Donut, Geschäftsführerversorgung)
+- Fix: bAV-Beiträge immer × 12 (nicht × Monatsgehälter)
+- Fix: Donut-Prozentzahl kleiner
+
+GitHub Pages aktiviert für Testzwecke.
 
 ---
 
-## Nächster Schritt – Browser-Test + Feinschliff
+## Nächster Schritt – Feedback-Runde extern
 
-Rechner in `stufen-rechner-build.html` (oder `docs/index.html`) im Browser öffnen und testen:
-- Alle 3 Modi (A/B/C) durchspielen
-- Betrachtungen 1-3 prüfen
-- Leistungsdarstellung mit Rendite-Toggle testen
-- Mobile Darstellung prüfen
+Rechner liegt unter https://olibau.github.io/bav-2-stufen-foerderung/ zum Testen.
+QR-Code und URL in `bereitstellung/` für Weitergabe.
 
 ---
 

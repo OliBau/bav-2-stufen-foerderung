@@ -1,0 +1,11 @@
+Geschäftsführerversorgung – bAV 2-Stufen-Förderung
+===================================================
+
+URL zum Rechner:
+https://olibau.github.io/bav-2-stufen-foerderung/
+
+QR-Code:
+→ qr-code_2-Stufen-Foerderung.png (in diesem Ordner)
+
+Stand: 20.03.2026
+Status: Testversion (v2)
