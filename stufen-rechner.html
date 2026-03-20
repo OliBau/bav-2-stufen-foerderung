@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>bAV 2-Stufen-Förderung für GGF</title>
+<title>Geschäftsführerversorgung – bAV 2-Stufen-Förderung</title>
 <style>
 /* ============================================
    CSS VARIABLES – Design System (neutral v1)
@@ -55,7 +55,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 }
 .header p { font-size: .95rem; opacity: .85; max-width: 650px; line-height: 1.6; }
 
-/* ── HERO NAV PILLS ── */
 .hero-nav {
     display: flex; flex-wrap: wrap; gap: .6rem;
     margin-top: 2rem;
@@ -134,6 +133,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     margin-bottom: .35rem;
 }
 .info-block p { font-size: .85rem; color: var(--text-muted); line-height: 1.55; }
+.info-disclaimer {
+    font-size: .72rem; color: var(--text-light); margin-top: .4rem;
+    font-style: italic; line-height: 1.4;
+}
 
 /* ============================================
    EINGABE-BEREICH
@@ -189,7 +192,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 }
 .select:focus { outline: none; border-color: var(--primary); }
 
-/* Toggle */
 .toggle-row { display: flex; align-items: center; gap: .6rem; padding: .4rem 0; }
 .toggle { position: relative; width: 44px; height: 24px; flex-shrink: 0; }
 .toggle input { opacity: 0; width: 0; height: 0; }
@@ -207,7 +209,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 .toggle-label { font-size: .82rem; color: var(--text); }
 .divider { border: none; border-top: 2px solid var(--primary-light); margin: 1.25rem 0; }
 
-/* Modus-Tabs */
 .mode-tabs {
     display: flex; gap: 0; margin-bottom: 1.25rem;
     border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden;
@@ -219,12 +220,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     transition: all .2s;
 }
 .mode-tab:not(:last-child) { border-right: 1px solid var(--border); }
-.mode-tab.active {
-    background: var(--primary); color: #fff;
-}
+.mode-tab.active { background: var(--primary); color: #fff; }
 .mode-tab:hover:not(.active) { background: var(--primary-light); }
 
-/* Verteilungs-Anzeige */
 .verteilung-display {
     background: var(--primary-light); border-radius: var(--radius);
     padding: .75rem 1rem; margin-top: .5rem;
@@ -232,7 +230,17 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     text-align: center;
 }
 
-/* Berechnen-Button */
+/* Jahresbeitrag-Anzeige */
+.jahresbeitrag-display {
+    background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem; margin-top: 1rem;
+    color: #fff; text-align: center;
+}
+.jahresbeitrag-label { font-size: .75rem; opacity: .7; text-transform: uppercase; letter-spacing: .06em; }
+.jahresbeitrag-value { font-size: 1.6rem; font-weight: 800; font-variant-numeric: tabular-nums; margin-top: .15rem; }
+.jahresbeitrag-sub { font-size: .78rem; opacity: .65; margin-top: .15rem; }
+
 .btn-berechnen {
     display: block; width: 100%; padding: 1rem;
     background: var(--primary); color: #fff;
@@ -250,7 +258,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 #ergebnis-bereich { display: none; }
 #ergebnis-bereich.visible { display: block; }
 
-/* Balkendiagramm */
+/* Balkendiagramm mit Beschriftung */
 .bar-container { margin-bottom: 1.5rem; }
 .bar-title {
     font-size: 1.1rem; font-weight: 700;
@@ -262,13 +270,56 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 }
 .bar-seg {
     display: flex; align-items: center; justify-content: center;
-    font-size: .82rem; font-weight: 700; color: #fff;
+    font-size: .78rem; font-weight: 700; color: #fff;
     transition: width .5s cubic-bezier(.4,0,.2,1);
     min-width: 0; overflow: hidden; white-space: nowrap;
 }
 .bar-seg.nettoaufwand { background: var(--c-nettoaufwand); }
 .bar-seg.kst { background: var(--c-kst); }
 .bar-seg.gewst { background: var(--c-gewst); }
+.bar-labels {
+    display: flex; margin-top: .4rem;
+}
+.bar-label-seg {
+    text-align: center; font-size: .68rem; font-weight: 600;
+    color: var(--text-muted); line-height: 1.3;
+    transition: width .5s;
+}
+
+/* Donut-Chart */
+.donut-wrap {
+    display: flex; align-items: center; justify-content: center; gap: 2rem;
+    margin: 1.5rem 0;
+}
+.donut-chart {
+    width: 160px; height: 160px; position: relative; flex-shrink: 0;
+}
+.donut-chart svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.donut-chart circle { fill: none; stroke-width: 28; }
+.donut-center {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);
+    text-align: center;
+}
+.donut-center-value { font-size: 1.6rem; font-weight: 800; color: var(--primary); line-height: 1; }
+.donut-center-label { font-size: .68rem; color: var(--text-muted); margin-top: .15rem; }
+.donut-legend { font-size: .82rem; }
+.donut-legend-item {
+    display: flex; align-items: center; gap: .5rem;
+    padding: .35rem 0;
+}
+.donut-legend-dot { width: 12px; height: 12px; border-radius: 3px; flex-shrink: 0; }
+.donut-legend-text { color: var(--text-muted); }
+.donut-legend-val { font-weight: 700; margin-left: auto; font-variant-numeric: tabular-nums; min-width: 80px; text-align: right; }
+
+/* Effektive-Quote hervorgehoben */
+.effektiv-quote-box {
+    background: var(--primary-light); border-radius: var(--radius);
+    padding: 1rem 1.25rem; margin-top: 1rem;
+    display: flex; align-items: center; justify-content: space-between;
+    border: 1px solid rgba(0,59,126,.1);
+}
+.effektiv-quote-label { font-size: .88rem; font-weight: 600; color: var(--primary); }
+.effektiv-quote-value { font-size: 1.8rem; font-weight: 800; color: var(--primary); font-variant-numeric: tabular-nums; }
 
 /* Breakdown-Tabelle */
 .breakdown { border-top: 2px solid var(--primary-light); padding-top: 1.25rem; }
@@ -288,7 +339,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     font-size: .68rem; color: var(--text-light); font-weight: 400; margin-left: .15rem;
 }
 
-/* Ergebnis-Card */
 .result-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -300,7 +350,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 .result-card-title {
     font-size: 1rem; font-weight: 700; color: var(--primary);
     margin-bottom: 1rem;
-    display: flex; align-items: center; justify-content: space-between;
 }
 
 /* Toggle-Sektionen */
@@ -319,25 +368,55 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 .toggle-content { overflow: hidden; transition: max-height .3s ease; }
 .toggle-content.collapsed { max-height: 0 !important; }
 
-/* Vergleichstabelle */
-.vergleich-table {
-    width: 100%; border-collapse: collapse; font-size: .85rem;
+/* Wasserfall-Darstellung */
+.wasserfall-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
 }
-.vergleich-table th {
-    text-align: left; font-weight: 700; color: var(--primary);
-    padding: .6rem .75rem; background: var(--bg);
-    border-bottom: 2px solid var(--primary-light);
+.wasserfall-card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 1.25rem;
+    box-shadow: var(--shadow);
 }
-.vergleich-table td {
-    padding: .6rem .75rem; border-bottom: 1px solid var(--bg);
+.wasserfall-card.highlight {
+    border-color: var(--c-vorteil);
+    box-shadow: 0 0 0 1px var(--c-vorteil), var(--shadow);
 }
-.vergleich-table td:not(:first-child) {
-    text-align: right; font-weight: 700; font-variant-numeric: tabular-nums;
+.wasserfall-card-title {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .08em; color: var(--primary-medium);
+    margin-bottom: .75rem;
 }
-.vergleich-table .highlight-row {
-    background: rgba(39,174,96,.06);
+.wf-row {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .45rem 0; font-size: .85rem;
 }
-.vergleich-table .highlight-row td { color: var(--c-vorteil); font-weight: 700; }
+.wf-row + .wf-row { border-top: 1px solid var(--bg); }
+.wf-label { color: var(--text-muted); }
+.wf-value { font-weight: 700; font-variant-numeric: tabular-nums; }
+.wf-value.negative { color: #c0392b; }
+.wf-value.positive { color: var(--c-vorteil); }
+.wf-total {
+    border-top: 2px solid var(--text) !important;
+    font-weight: 700; font-size: .95rem; padding-top: .6rem; margin-top: .25rem;
+}
+.wf-result {
+    background: var(--primary-light); border-radius: var(--radius);
+    padding: .75rem 1rem; margin-top: .75rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-weight: 700; color: var(--primary);
+}
+
+/* Vorteil-Banner */
+.vorteil-banner {
+    background: linear-gradient(135deg, var(--c-vorteil), #219a52);
+    border-radius: var(--radius);
+    padding: 1.25rem 1.5rem; margin-top: 1.25rem;
+    color: #fff; text-align: center;
+}
+.vorteil-banner-label { font-size: .78rem; opacity: .85; }
+.vorteil-banner-value { font-size: 1.8rem; font-weight: 800; margin-top: .15rem; }
+.vorteil-banner-sub { font-size: .82rem; opacity: .8; margin-top: .25rem; }
 
 /* Hinweis-Box */
 .hinweis {
@@ -351,8 +430,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 /* ============================================
    LEISTUNGSDARSTELLUNG
    ============================================ */
-
-/* Rendite-Pill-Toggle */
 .rendite-pills {
     display: flex; gap: 0; margin-bottom: 1.5rem;
     border: 1px solid var(--border); border-radius: 100px; overflow: hidden;
@@ -365,15 +442,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     transition: all .2s;
 }
 .rendite-pill:not(:last-child) { border-right: 1px solid var(--border); }
-.rendite-pill.active {
-    background: var(--primary); color: #fff;
-}
+.rendite-pill.active { background: var(--primary); color: #fff; }
 .rendite-pill:hover:not(.active) { background: var(--primary-light); }
-.rendite-hint {
-    font-size: .72rem; color: var(--text-light); margin-top: .5rem;
-}
+.rendite-hint { font-size: .72rem; color: var(--text-light); margin-top: .5rem; }
 
-/* Laufzeit-Bar */
 .laufzeit-bar-wrap {
     background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
     border-radius: var(--radius);
@@ -393,14 +465,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     background: var(--primary-medium);
     transition: width .5s;
 }
-.laufzeit-labels {
-    display: flex; justify-content: space-between;
-}
+.laufzeit-labels { display: flex; justify-content: space-between; }
 .laufzeit-label { text-align: center; }
 .laufzeit-label .lz-val { font-size: 1rem; font-weight: 700; display: block; line-height: 1; }
 .laufzeit-label .lz-desc { font-size: .62rem; opacity: .5; display: block; margin-top: .15rem; }
 
-/* Stage-Cards */
+/* Stage-Cards – verbessert */
 .stage-grid {
     display: grid; grid-template-columns: 1fr 1fr;
     gap: 1.25rem; margin-bottom: 1.5rem;
@@ -419,24 +489,38 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     margin-bottom: .15rem;
 }
 .stage-card-subtitle {
-    font-size: .95rem; font-weight: 700; color: var(--primary);
-    margin-bottom: .35rem;
+    font-size: 1.05rem; font-weight: 700; color: var(--primary);
+    margin-bottom: .5rem;
 }
-.stage-card-beitrag {
-    font-size: .82rem; color: var(--text-muted); margin-bottom: .75rem;
+/* Beitrag-Highlight in Stage-Card */
+.stage-beitrag-highlight {
+    background: var(--primary-light); border-radius: var(--radius);
+    padding: .75rem 1rem; margin-bottom: .75rem;
+    display: flex; align-items: center; justify-content: space-between;
 }
+.stage-beitrag-left { }
+.stage-beitrag-pm { font-size: 1.2rem; font-weight: 800; color: var(--primary); }
+.stage-beitrag-pm-label { font-size: .68rem; color: var(--text-muted); }
+.stage-beitrag-arrow { font-size: 1.2rem; color: var(--primary-medium); margin: 0 .5rem; }
+.stage-beitrag-right { text-align: right; }
+.stage-beitrag-total { font-size: 1rem; font-weight: 700; color: var(--primary); }
+.stage-beitrag-total-label { font-size: .68rem; color: var(--text-muted); }
+
 .stage-card .stage-divider {
     border: none; border-top: 1px solid var(--primary-light); margin: .75rem 0;
 }
-.stage-row {
-    display: flex; justify-content: space-between; align-items: baseline;
-    padding: .3rem 0; font-size: .85rem;
+.stage-leistung-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: .5rem;
 }
-.stage-row-label { color: var(--text-muted); }
-.stage-row-value { font-weight: 700; font-variant-numeric: tabular-nums; }
-.stage-row-hint { font-size: .72rem; color: var(--text-light); padding: .15rem 0; }
+.stage-leistung-item { padding: .4rem 0; }
+.stage-leistung-label {
+    font-size: .72rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: .04em; color: var(--primary-medium); margin-bottom: .1rem;
+}
+.stage-leistung-value { font-size: 1.15rem; font-weight: 800; color: var(--text); font-variant-numeric: tabular-nums; }
+.stage-leistung-hint { font-size: .72rem; color: var(--text-light); }
 
-/* Hero-Card (Gesamtleistung) */
+/* Hero-Card */
 .hero-card {
     background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
     border-radius: var(--radius);
@@ -462,17 +546,35 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     gap: 2rem; position: relative; z-index: 1;
     margin-bottom: 1rem;
 }
-.hero-card-main { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
-.hero-card-sub { font-size: .85rem; opacity: .75; margin-top: .35rem; }
+.hero-card-main { font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.hero-card-sub { font-size: .9rem; font-weight: 600; opacity: .85; margin-top: .35rem; }
 .hero-card-garantie { font-size: .78rem; opacity: .6; margin-top: .25rem; }
-.hero-card-hebel {
+
+/* Hebel-Darstellung */
+.hebel-section {
     position: relative; z-index: 1;
-    margin-top: 1rem; padding-top: 1rem;
+    margin-top: 1.25rem; padding-top: 1.25rem;
     border-top: 1px solid rgba(255,255,255,.15);
-    font-size: .88rem; font-weight: 600;
-    color: rgba(255,255,255,.9);
 }
-.hero-card-hebel .checkmark { color: var(--c-vorteil); margin-right: .3rem; }
+.hebel-row {
+    display: flex; align-items: center; gap: 1rem; margin-bottom: .75rem;
+}
+.hebel-bar-wrap { flex: 1; display: flex; gap: 3px; align-items: flex-end; height: 36px; }
+.hebel-bar {
+    border-radius: 3px; transition: width .5s;
+    display: flex; align-items: center; justify-content: center;
+    font-size: .75rem; font-weight: 700; color: #fff;
+    min-height: 36px;
+}
+.hebel-bar.aufwand { background: rgba(255,255,255,.2); }
+.hebel-bar.beitrag { background: var(--c-vorteil); }
+.hebel-label { font-size: .82rem; opacity: .85; }
+.hebel-value { font-size: 1.3rem; font-weight: 800; }
+.hebel-text {
+    font-size: .85rem; font-weight: 600; color: rgba(255,255,255,.9);
+    margin-top: .5rem;
+}
+.hebel-text .checkmark { color: var(--c-vorteil); margin-right: .3rem; }
 
 /* ============================================
    FOOTER
@@ -495,8 +597,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     .hero-card-values { grid-template-columns: 1fr; gap: 1rem; }
     .hero-card { padding: 1.5rem; }
     .laufzeit-bar-wrap { padding: 1.25rem; }
-    .vergleich-table { font-size: .78rem; }
-    .vergleich-table th, .vergleich-table td { padding: .5rem; }
+    .wasserfall-grid { grid-template-columns: 1fr; }
+    .donut-wrap { flex-direction: column; }
+    .stage-leistung-grid { grid-template-columns: 1fr; }
 }
 @media (max-width: 480px) {
     .container { padding: 0 1rem; }
@@ -512,13 +615,11 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 </head>
 <body>
 
-<!-- ============================================
-     HEADER
-     ============================================ -->
+<!-- HEADER -->
 <header class="header">
   <div class="container">
-    <h1>bAV 2-Stufen-Förderung für GGF</h1>
-    <p>Interaktiver Rechner für die firmenfinanzierte betriebliche Altersvorsorge – Direktversicherung und Unterstützungskasse kombiniert.</p>
+    <h1>Geschäftsführerversorgung – 2-Stufen-Förderung</h1>
+    <p>Interaktiver Rechner für die firmenfinanzierte betriebliche Altersvorsorge. Direktversicherung und Unterstützungskasse kombiniert – für Geschäftsführer und Gesellschafter-Geschäftsführer.</p>
     <nav class="hero-nav">
       <a href="#eingaben" class="hero-pill">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h10M2 7h10M2 11h6"/></svg>
@@ -526,7 +627,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
       </a>
       <a href="#betrachtung1" class="hero-pill">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 11V6h3v5M6 11V3h3v8M11 11V1h3v10"/></svg>
-        Unternehmensebene
+        Firmenkosten
       </a>
       <a href="#betrachtung2" class="hero-pill">
         <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 1v12M1 7l6-6 6 6"/></svg>
@@ -544,9 +645,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   </div>
 </header>
 
-<!-- ============================================
-     INFO-SEKTION
-     ============================================ -->
+<!-- INFO-SEKTION -->
 <section class="section" id="info">
   <div class="container">
     <div class="section-header">
@@ -559,8 +658,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="16" height="12" rx="2"/><path d="M3 9h16"/></svg>
         </div>
         <div>
-          <h3>Stufe 1 – Direktversicherung</h3>
-          <p>Bis zu 676 €/Monat (8 % der BBG 2026). Steuer- und sozialversicherungsfrei. Gesetzlich geregelt und bewährt.</p>
+          <h3>Stufe 1 – Direktversicherung (§ 3 Nr. 63 EStG)</h3>
+          <p>Bis zu 676 €/Monat (8 % der BBG 2026) steuerfrei. Davon sind 4 % der BBG (338 €/Monat) zusätzlich sozialversicherungsfrei. Eine Lebensversicherung auf das Leben des Geschäftsführers, abgeschlossen durch die GmbH.</p>
+          <p class="info-disclaimer">Beherrschende Gesellschafter-Geschäftsführer sind in der Regel nicht sozialversicherungspflichtig – die SV-Grenze hat für sie keine praktische Relevanz.</p>
         </div>
       </div>
       <div class="info-block">
@@ -568,8 +668,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 2l8 5v8l-8 5-8-5V7z"/></svg>
         </div>
         <div>
-          <h3>Stufe 2 – Unterstützungskasse</h3>
-          <p>Keine gesetzliche Obergrenze. Beiträge sind vollständig als Betriebsausgabe absetzbar – ideal für höhere Versorgung.</p>
+          <h3>Stufe 2 – Unterstützungskasse (§ 4d EStG)</h3>
+          <p>Beiträge sind als Betriebsausgabe absetzbar. Die steuerliche Obergrenze richtet sich nach der KStDV (Körperschaftsteuer-Durchführungsverordnung, §§ 2–6) und hängt von Gehalt, Alter und Zusageform ab. Eine rechtlich eigenständige Versorgungseinrichtung, die Leistungen über einen Versicherer rückdeckt.</p>
         </div>
       </div>
       <div class="info-block">
@@ -577,8 +677,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M11 1v6l5 3-5 3v6"/><path d="M3 7l8 4 8-4"/></svg>
         </div>
         <div>
-          <h3>Firmensteuern sparen</h3>
-          <p>Beiträge mindern KSt, SolZ und GewSt. Je nach Hebesatz trägt die Firma effektiv nur 70 % des Beitrags.</p>
+          <h3>Körperschaftsteuer und Gewerbesteuer sparen</h3>
+          <p>Beiträge mindern Körperschaftsteuer (15,825 % inkl. SolZ) und Gewerbesteuer (abhängig vom Hebesatz). Je nach Standort trägt die Firma effektiv nur ca. 70 % des Beitrags.</p>
         </div>
       </div>
       <div class="info-block">
@@ -586,8 +686,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="8" r="4"/><path d="M4 19c0-4 3-6 7-6s7 2 7 6"/></svg>
         </div>
         <div>
-          <h3>GGF-Vorteil</h3>
-          <p>Günstiger als Gehaltserhöhung oder Gewinnausschüttung. Der Rechner zeigt den konkreten Unterschied.</p>
+          <h3>Vorteil Geschäftsführerversorgung</h3>
+          <p>Günstiger als Gehaltserhöhung oder Gewinnausschüttung. Der Rechner zeigt den konkreten Unterschied – für Gesellschafter-Geschäftsführer und angestellte Fremdgeschäftsführer gleichermaßen.</p>
         </div>
       </div>
     </div>
@@ -596,26 +696,20 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 
 <hr class="section-divider">
 
-<!-- ============================================
-     EINGABEN
-     ============================================ -->
+<!-- EINGABEN -->
 <section class="section" id="eingaben">
   <div class="container">
     <div class="section-header">
       <div class="section-num">1</div>
       <div class="section-label">Eingaben</div>
-      <h2 class="section-title">Unternehmen und GGF</h2>
+      <h2 class="section-title">Unternehmen und Geschäftsführer</h2>
     </div>
 
     <div class="calc-grid">
-      <!-- Unternehmensdaten -->
       <div class="input-panel">
         <div class="panel-title">Unternehmensdaten</div>
-
         <div class="input-group">
-          <div class="input-label">
-            <span class="input-label-text">Bundesland</span>
-          </div>
+          <div class="input-label"><span class="input-label-text">Bundesland</span></div>
           <select id="bundesland" class="select">
             <option value="Baden-Württemberg">Baden-Württemberg</option>
             <option value="Bayern">Bayern</option>
@@ -635,16 +729,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
             <option value="Thüringen">Thüringen</option>
           </select>
         </div>
-
         <div class="input-group">
-          <div class="input-label">
-            <span class="input-label-text">Rechtsform</span>
-          </div>
-          <select class="select" disabled>
-            <option selected>GmbH</option>
-          </select>
+          <div class="input-label"><span class="input-label-text">Rechtsform</span></div>
+          <select class="select" disabled><option selected>GmbH</option></select>
         </div>
-
         <div class="input-group">
           <div class="input-label">
             <span class="input-label-text">Gewerbesteuerhebesatz</span>
@@ -655,51 +743,34 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
             <span class="value-input-suffix">%</span>
           </div>
         </div>
-
         <div class="input-group">
-          <div class="input-label">
-            <span class="input-label-text">Gewinnermittlung</span>
-          </div>
-          <select class="select" disabled>
-            <option selected>Bilanzierung</option>
-          </select>
+          <div class="input-label"><span class="input-label-text">Gewinnermittlung</span></div>
+          <select class="select" disabled><option selected>Bilanzierung</option></select>
         </div>
       </div>
 
-      <!-- GGF-Personaldaten -->
       <div class="input-panel">
-        <div class="panel-title">GGF-Personaldaten</div>
-
+        <div class="panel-title">Geschäftsführer – Personaldaten</div>
         <div class="input-group">
-          <div class="input-label">
-            <span class="input-label-text">Geburtsdatum</span>
-          </div>
+          <div class="input-label"><span class="input-label-text">Geburtsdatum</span></div>
           <input type="date" id="geburtsdatum" class="value-input" style="text-align:left;">
         </div>
-
         <div class="input-row">
           <div class="input-group">
-            <div class="input-label">
-              <span class="input-label-text">Monatsgehalt brutto</span>
-            </div>
+            <div class="input-label"><span class="input-label-text">Monatsgehalt brutto</span></div>
             <div class="value-input-wrap">
               <input type="number" id="monatsgehalt" class="value-input" placeholder="z.B. 10000" min="0" step="100">
               <span class="value-input-suffix">€</span>
             </div>
           </div>
           <div class="input-group">
-            <div class="input-label">
-              <span class="input-label-text">Monatsgehälter</span>
-            </div>
+            <div class="input-label"><span class="input-label-text">Monatsgehälter</span></div>
             <input type="number" id="monatsgehaelter" class="value-input" value="12" min="12" max="14" step="1">
           </div>
         </div>
-
         <div class="input-row">
           <div class="input-group">
-            <div class="input-label">
-              <span class="input-label-text">Steuerklasse</span>
-            </div>
+            <div class="input-label"><span class="input-label-text">Steuerklasse</span></div>
             <select id="steuerklasse" class="select">
               <option value="1" selected>I</option>
               <option value="2">II</option>
@@ -709,26 +780,16 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
             </select>
           </div>
           <div class="input-group">
-            <div class="input-label">
-              <span class="input-label-text">Kinderfreibeträge</span>
-            </div>
+            <div class="input-label"><span class="input-label-text">Kinderfreibeträge</span></div>
             <input type="number" id="kinderfreibetraege" class="value-input" value="0" min="0" max="6" step="0.5">
           </div>
         </div>
-
         <div class="toggle-row">
-          <label class="toggle">
-            <input type="checkbox" id="kirchensteuer">
-            <span class="toggle-slider"></span>
-          </label>
+          <label class="toggle"><input type="checkbox" id="kirchensteuer"><span class="toggle-slider"></span></label>
           <span class="toggle-label">Kirchensteuer</span>
         </div>
-
         <div class="toggle-row">
-          <label class="toggle">
-            <input type="checkbox" id="kv-typ" checked>
-            <span class="toggle-slider"></span>
-          </label>
+          <label class="toggle"><input type="checkbox" id="kv-typ" checked><span class="toggle-slider"></span></label>
           <span class="toggle-label" id="kv-label">PKV</span>
         </div>
       </div>
@@ -737,7 +798,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
     <!-- BAV-Block -->
     <div class="input-panel" style="margin-top: 1.5rem;">
       <div class="panel-title">bAV-Beiträge</div>
-
       <div class="mode-tabs">
         <button class="mode-tab" data-mode="A" onclick="setMode('A')">Nur UK (Stufe 2)</button>
         <button class="mode-tab" data-mode="B" onclick="setMode('B')">Stufe 1 + 2 getrennt</button>
@@ -745,7 +805,6 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
       </div>
 
       <div id="modus-content">
-        <!-- Gemeinsam: Bestehende DV -->
         <div class="input-group" id="dv-bestand-wrap">
           <div class="input-label">
             <span class="input-label-text">Bereits genutzter DV-Beitrag</span>
@@ -760,12 +819,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           </div>
         </div>
 
-        <!-- Modus A: Nur UK -->
         <div id="modus-a" style="display:none;">
           <div class="input-group">
-            <div class="input-label">
-              <span class="input-label-text">UK-Beitrag (Stufe 2)</span>
-            </div>
+            <div class="input-label"><span class="input-label-text">UK-Beitrag (Stufe 2)</span></div>
             <div class="value-input-wrap">
               <input type="number" id="uk-beitrag-a" class="value-input" placeholder="z.B. 2000" min="0" step="50">
               <span class="value-input-suffix">€/Monat</span>
@@ -773,22 +829,17 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           </div>
         </div>
 
-        <!-- Modus B: Stufe 1 + 2 getrennt -->
         <div id="modus-b" style="display:none;">
           <div class="input-row">
             <div class="input-group">
-              <div class="input-label">
-                <span class="input-label-text">Beitrag Stufe 1 (DV, neu)</span>
-              </div>
+              <div class="input-label"><span class="input-label-text">Beitrag Stufe 1 (DV, neu)</span></div>
               <div class="value-input-wrap">
                 <input type="number" id="dv-beitrag-b" class="value-input" value="0" min="0" step="1">
                 <span class="value-input-suffix">€/Monat</span>
               </div>
             </div>
             <div class="input-group">
-              <div class="input-label">
-                <span class="input-label-text">Beitrag Stufe 2 (UK)</span>
-              </div>
+              <div class="input-label"><span class="input-label-text">Beitrag Stufe 2 (UK)</span></div>
               <div class="value-input-wrap">
                 <input type="number" id="uk-beitrag-b" class="value-input" placeholder="z.B. 2000" min="0" step="50">
                 <span class="value-input-suffix">€/Monat</span>
@@ -797,12 +848,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           </div>
         </div>
 
-        <!-- Modus C: Gesamtbeitrag -->
         <div id="modus-c">
           <div class="input-group">
-            <div class="input-label">
-              <span class="input-label-text">Gesamtbeitrag</span>
-            </div>
+            <div class="input-label"><span class="input-label-text">Gesamtbeitrag</span></div>
             <div class="value-input-wrap">
               <input type="number" id="gesamt-beitrag-c" class="value-input" placeholder="z.B. 2000" min="0" step="50">
               <span class="value-input-suffix">€/Monat</span>
@@ -810,26 +858,29 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           </div>
           <div class="input-row">
             <div class="input-group">
-              <div class="input-label">
-                <span class="input-label-text">davon Stufe 1 (DV)</span>
-              </div>
+              <div class="input-label"><span class="input-label-text">davon Stufe 1 (DV)</span></div>
               <div class="value-input-wrap">
                 <input type="number" id="dv-beitrag-c" class="value-input" value="0" min="0" step="1">
                 <span class="value-input-suffix">€/Monat</span>
               </div>
             </div>
             <div class="input-group">
-              <div class="input-label">
-                <span class="input-label-text">davon Stufe 2 (UK)</span>
-              </div>
+              <div class="input-label"><span class="input-label-text">davon Stufe 2 (UK)</span></div>
               <div class="value-input-wrap">
-                <input type="number" id="uk-beitrag-c" class="value-input" value="0" min="0" step="1" readonly>
+                <input type="number" id="uk-beitrag-c" class="value-input" value="0" min="0" step="1">
                 <span class="value-input-suffix">€/Monat</span>
               </div>
             </div>
           </div>
           <div class="verteilung-display" id="verteilung-display" style="display:none;"></div>
         </div>
+      </div>
+
+      <!-- Jahresbeitrag-Anzeige (Punkt 6) -->
+      <div class="jahresbeitrag-display" id="jahresbeitrag-display" style="display:none;">
+        <div class="jahresbeitrag-label">Gesamtbeitrag pro Jahr</div>
+        <div class="jahresbeitrag-value" id="jahresbeitrag-value">–</div>
+        <div class="jahresbeitrag-sub" id="jahresbeitrag-sub"></div>
       </div>
 
       <button class="btn-berechnen" onclick="berechnen()">Berechnen</button>
@@ -839,9 +890,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 
 <hr class="section-divider">
 
-<!-- ============================================
-     ERGEBNIS-BEREICH
-     ============================================ -->
+<!-- ERGEBNIS-BEREICH -->
 <div id="ergebnis-bereich">
 
   <!-- Betrachtung 1: Unternehmensebene -->
@@ -857,12 +906,20 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
         <div class="bar-container">
           <div class="bar-title">Jährlicher Beitrag – Steuerersparnis</div>
           <div class="bar-stack" id="bar-firmensteuer"></div>
+          <div class="bar-labels" id="bar-labels"></div>
         </div>
+
+        <!-- Donut-Chart (Punkt 9) -->
+        <div id="donut-section"></div>
+
         <div class="breakdown" id="breakdown-firmensteuer"></div>
+
+        <!-- Effektive Quote hervorgehoben (Punkt 8) -->
+        <div id="effektiv-quote"></div>
       </div>
 
       <div class="hinweis">
-        <strong>&#9432; Hinweis:</strong> Seit der Unternehmensteuerreform 2008 ist die Gewerbesteuer nicht mehr als Betriebsausgabe abziehbar (§ 4 Abs. 5b EStG). KSt und GewSt werden unabhängig voneinander auf dieselbe Bemessungsgrundlage berechnet. Diese Vereinfachung ist für die Beratungsindikation geeignet.
+        <strong>&#9432; Hinweis:</strong> Seit der Unternehmensteuerreform 2008 ist die Gewerbesteuer nicht mehr als Betriebsausgabe abziehbar (§ 4 Abs. 5b EStG). Körperschaftsteuer und Gewerbesteuer werden unabhängig voneinander auf dieselbe Bemessungsgrundlage berechnet.
       </div>
     </div>
   </section>
@@ -876,7 +933,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
         <div>
           <div class="section-num" style="display:inline-flex;vertical-align:middle;margin-right:.5rem;">3</div>
           <span class="section-label" style="display:inline;vertical-align:middle;margin-right:.5rem;">Betrachtung 2</span>
-          <h3 style="display:inline;vertical-align:middle;">Äquivalenz: Gehaltserhöhung</h3>
+          <h3 style="display:inline;vertical-align:middle;">Was würde eine Gehaltserhöhung kosten?</h3>
         </div>
         <svg class="toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </div>
@@ -885,7 +942,7 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
           <div id="gehalt-ergebnis"></div>
         </div>
         <div class="hinweis">
-          <strong>&#9432;</strong> Beherrschender GGF ohne SV-Pflicht angenommen. Diese Rechnung vergleicht den Einzahlungsvorteil, nicht die Auszahlungsphase (bAV wird nachgelagert besteuert).
+          <strong>&#9432;</strong> Beherrschender Gesellschafter-Geschäftsführer ohne SV-Pflicht angenommen. Diese Rechnung vergleicht den Einzahlungsvorteil, nicht die Auszahlungsphase (bAV wird nachgelagert besteuert).
         </div>
       </div>
     </div>
@@ -900,14 +957,12 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
         <div>
           <div class="section-num" style="display:inline-flex;vertical-align:middle;margin-right:.5rem;">4</div>
           <span class="section-label" style="display:inline;vertical-align:middle;margin-right:.5rem;">Betrachtung 3</span>
-          <h3 style="display:inline;vertical-align:middle;">Äquivalenz: Gewinnausschüttung</h3>
+          <h3 style="display:inline;vertical-align:middle;">Was würde eine Gewinnausschüttung kosten?</h3>
         </div>
         <svg class="toggle-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
       </div>
       <div class="toggle-content" id="toggle-ausschuettung">
-        <div class="result-card">
-          <div id="ausschuettung-ergebnis"></div>
-        </div>
+        <div id="ausschuettung-ergebnis"></div>
         <div class="hinweis">
           <strong>&#9432;</strong> Abgeltungsteuer als konservativer Vergleich. Bei ≥ 25 % Beteiligung kann das Teileinkünfteverfahren (§ 32d Abs. 2 Nr. 3 EStG) günstiger sein – ab ca. 43,5 % Grenzsteuersatz ist Abgeltungsteuer vorteilhafter. Auszahlungsphase nicht berücksichtigt.
         </div>
@@ -923,10 +978,9 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
       <div class="section-header">
         <div class="section-num">5</div>
         <div class="section-label">Leistungsdarstellung</div>
-        <h2 class="section-title">Was kommt für den GGF dabei raus?</h2>
+        <h2 class="section-title">Was kommt für den Geschäftsführer dabei raus?</h2>
       </div>
 
-      <!-- Rendite-Toggle -->
       <div style="display:flex;align-items:center;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem;">
         <span style="font-size:.85rem;font-weight:600;color:var(--text-muted);">Renditeszenario:</span>
         <div class="rendite-pills">
@@ -938,13 +992,8 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
       </div>
       <div class="rendite-hint">Renditeszenario gilt für inkl. Überschuss-Werte. Garantiewerte sind unabhängig vom gewählten Szenario.</div>
 
-      <!-- Laufzeit-Bar -->
       <div class="laufzeit-bar-wrap" id="laufzeit-bar" style="margin-top:1.5rem;"></div>
-
-      <!-- Stage-Cards -->
       <div class="stage-grid" id="stage-cards"></div>
-
-      <!-- Hero-Card -->
       <div id="hero-card-wrap"></div>
 
       <div class="hinweis" style="margin-top:1rem;">
@@ -954,18 +1003,14 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
   </section>
 </div>
 
-<!-- ============================================
-     FOOTER
-     ============================================ -->
+<!-- FOOTER -->
 <footer class="footer">
-  bAV 2-Stufen-Förderung – Rechner für Beratungsgespräche<br>
+  Geschäftsführerversorgung – 2-Stufen-Förderung – Rechner für Beratungsgespräche<br>
   Alle Berechnungen sind unverbindliche Näherungen. Verbindliche Angebote erstellt der Versicherer.<br>
   Tariftabellen: Zürich Lebensversicherung AG, Stand 2026
 </footer>
 
-<!-- ============================================
-     JAVASCRIPT
-     ============================================ -->
+<!-- JAVASCRIPT -->
 <!-- INCLUDE: src/fallback-data.js -->
 <!-- INCLUDE: src/rechenkern.js -->
 <!-- INCLUDE: src/firmensteuern.js -->
@@ -973,12 +1018,10 @@ body { font-family: var(--font); background: var(--bg); color: var(--text); line
 <script>
 "use strict";
 
-// ── Globale Parameter ──
 const PARAMETER = PARAMETER_2026_FALLBACK;
 const AKTUELLES_JAHR = 2026;
-const DV_MAX_MONAT = Math.trunc(PARAMETER.bbg_west * 0.08 / 12); // 676
+const DV_MAX_MONAT = Math.trunc(PARAMETER.bbg_west * 0.08 / 12);
 
-// Produktregeln (SPEC: ≤55 → FondsRente 70%, ≥56 → AnsparRente)
 const PRODUKT_REGELN = [
   { produkt: "FondsRente 70%", bis_alter: 55 },
   { produkt: "AnsparRente", ab_alter: 56 },
@@ -1007,19 +1050,19 @@ function setMode(mode) {
   document.getElementById('modus-c').style.display = mode === 'C' ? '' : 'none';
   document.getElementById('dv-bestand-wrap').style.display = mode === 'A' ? 'none' : '';
   updateDvSpielraum();
+  updateJahresbeitragDisplay();
 }
 
 function updateDvSpielraum() {
   const bestand = parseFloat(document.getElementById('dv-bestand').value) || 0;
   const spielraum = Math.max(0, DV_MAX_MONAT - bestand);
   document.getElementById('dv-spielraum').textContent = spielraum;
-  // Modus B: DV-Feld max setzen
   const dvB = document.getElementById('dv-beitrag-b');
   dvB.max = spielraum;
   if (parseFloat(dvB.value) > spielraum) dvB.value = spielraum;
 }
 
-// ── Modus C: Automatische Verteilung ──
+// ── Modus C: Verteilung ──
 function verteileGesamtbeitrag() {
   const gesamt = parseFloat(document.getElementById('gesamt-beitrag-c').value) || 0;
   const bestand = parseFloat(document.getElementById('dv-bestand').value) || 0;
@@ -1029,6 +1072,7 @@ function verteileGesamtbeitrag() {
   document.getElementById('dv-beitrag-c').value = dv;
   document.getElementById('uk-beitrag-c').value = uk;
   updateVerteilungDisplay(dv, uk);
+  updateJahresbeitragDisplay();
 }
 
 function updateVerteilungDisplay(dv, uk) {
@@ -1047,12 +1091,37 @@ function updateVerteilungDisplay(dv, uk) {
   }
 }
 
-// Modus C: Manuelle Überschreibung der Einzelwerte
+// Modus C: Manuelle Überschreibung (Punkt 5)
 function onModusCEinzelwertChange() {
   const dv = parseFloat(document.getElementById('dv-beitrag-c').value) || 0;
   const uk = parseFloat(document.getElementById('uk-beitrag-c').value) || 0;
   document.getElementById('gesamt-beitrag-c').value = dv + uk;
   updateVerteilungDisplay(dv, uk);
+  updateJahresbeitragDisplay();
+}
+
+// ── Jahresbeitrag-Anzeige (Punkt 6) ──
+function updateJahresbeitragDisplay() {
+  let pm = 0;
+  if (aktiverModus === 'A') {
+    pm = parseFloat(document.getElementById('uk-beitrag-a').value) || 0;
+  } else if (aktiverModus === 'B') {
+    pm = (parseFloat(document.getElementById('dv-beitrag-b').value) || 0) +
+         (parseFloat(document.getElementById('uk-beitrag-b').value) || 0);
+  } else {
+    pm = (parseFloat(document.getElementById('dv-beitrag-c').value) || 0) +
+         (parseFloat(document.getElementById('uk-beitrag-c').value) || 0);
+  }
+  const monate = parseFloat(document.getElementById('monatsgehaelter').value) || 12;
+  const pa = pm * monate;
+  const el = document.getElementById('jahresbeitrag-display');
+  if (pm > 0) {
+    document.getElementById('jahresbeitrag-value').textContent = fmtEur(pa);
+    document.getElementById('jahresbeitrag-sub').textContent = fmtEurPm(pm) + ' × ' + monate + ' Monate';
+    el.style.display = '';
+  } else {
+    el.style.display = 'none';
+  }
 }
 
 // ── Rendite-Toggle ──
@@ -1079,18 +1148,18 @@ document.getElementById('kv-typ').addEventListener('change', function() {
 document.getElementById('dv-bestand').addEventListener('input', function() {
   updateDvSpielraum();
   if (aktiverModus === 'C') verteileGesamtbeitrag();
+  updateJahresbeitragDisplay();
 });
 document.getElementById('gesamt-beitrag-c').addEventListener('input', verteileGesamtbeitrag);
-document.getElementById('dv-beitrag-c').addEventListener('input', function() {
-  this.readOnly = false;
-  document.getElementById('uk-beitrag-c').readOnly = false;
-  onModusCEinzelwertChange();
-});
+document.getElementById('dv-beitrag-c').addEventListener('input', onModusCEinzelwertChange);
 document.getElementById('uk-beitrag-c').addEventListener('input', onModusCEinzelwertChange);
+document.getElementById('uk-beitrag-a').addEventListener('input', updateJahresbeitragDisplay);
+document.getElementById('dv-beitrag-b').addEventListener('input', updateJahresbeitragDisplay);
+document.getElementById('uk-beitrag-b').addEventListener('input', updateJahresbeitragDisplay);
+document.getElementById('monatsgehaelter').addEventListener('input', updateJahresbeitragDisplay);
 
 // ── HAUPTBERECHNUNG ──
 function berechnen() {
-  // Eingaben sammeln
   const bundesland = document.getElementById('bundesland').value;
   const hebesatz = parseFloat(document.getElementById('hebesatz').value) || 400;
   const geburtsdatum = document.getElementById('geburtsdatum').value;
@@ -1101,11 +1170,9 @@ function berechnen() {
   const kirchensteuer = document.getElementById('kirchensteuer').checked;
   const isPKV = document.getElementById('kv-typ').checked;
 
-  // Validierung
   if (!geburtsdatum) { alert('Bitte Geburtsdatum eingeben.'); return; }
   if (monatsgehalt <= 0) { alert('Bitte Monatsgehalt eingeben.'); return; }
 
-  // Beiträge nach Modus
   let beitragStufe1 = 0, beitragStufe2 = 0;
   if (aktiverModus === 'A') {
     beitragStufe2 = parseFloat(document.getElementById('uk-beitrag-a').value) || 0;
@@ -1133,41 +1200,69 @@ function berechnen() {
   };
   letzteEingaben = eingaben;
 
-  // ── Betrachtung 1: Firmensteuer ──
   const firmensteuer = Firmensteuern.firmensteuerErsparnis(beitragNeuPa, hebesatz);
   renderBetrachtung1(firmensteuer, beitragStufe1, beitragStufe2, monatsgehaelter);
 
-  // ── Betrachtung 2: Gehaltsäquivalenz ──
   const gehalt = Firmensteuern.gehaltsaequivalenz(
     beitragNeuPm, jahresgehalt, steuerklasse, kirchensteuer, kistSatz, PARAMETER
   );
   renderBetrachtung2(gehalt);
 
-  // ── Betrachtung 3: Ausschüttungsäquivalenz ──
   const vergleich = Firmensteuern.vergleich(beitragNeuPa, hebesatz, kirchensteuer, kistSatz);
   renderBetrachtung3(vergleich, firmensteuer);
 
-  // ── Leistungsdarstellung ──
   berechneLeistung(eingaben);
 
-  // Ergebnis sichtbar machen
   document.getElementById('ergebnis-bereich').classList.add('visible');
   setTimeout(() => {
     document.getElementById('betrachtung1').scrollIntoView({ behavior: 'smooth' });
   }, 100);
 }
 
-// ── Render: Betrachtung 1 ──
+// ── Render: Betrachtung 1 (Punkte 7, 8, 9) ──
 function renderBetrachtung1(fs, stufe1, stufe2, monate) {
   const total = fs.beitrag_pa;
   const kstPct = fs.kst_ersparnis / total * 100;
   const gewstPct = fs.gewst_ersparnis / total * 100;
   const nettoPct = 100 - kstPct - gewstPct;
 
+  // Balken mit Beträgen
   document.getElementById('bar-firmensteuer').innerHTML =
-    '<div class="bar-seg nettoaufwand" style="width:' + nettoPct + '%">' + (nettoPct > 15 ? fmtEur(fs.nettoaufwand) : '') + '</div>' +
-    '<div class="bar-seg kst" style="width:' + kstPct + '%">' + (kstPct > 12 ? fmtEur(fs.kst_ersparnis) : '') + '</div>' +
-    '<div class="bar-seg gewst" style="width:' + gewstPct + '%">' + (gewstPct > 12 ? fmtEur(fs.gewst_ersparnis) : '') + '</div>';
+    '<div class="bar-seg nettoaufwand" style="width:' + nettoPct + '%">' + (nettoPct > 18 ? fmtEur(fs.nettoaufwand) : '') + '</div>' +
+    '<div class="bar-seg kst" style="width:' + kstPct + '%">' + (kstPct > 14 ? fmtEur(fs.kst_ersparnis) : '') + '</div>' +
+    '<div class="bar-seg gewst" style="width:' + gewstPct + '%">' + (gewstPct > 14 ? fmtEur(fs.gewst_ersparnis) : '') + '</div>';
+
+  // Beschriftung unter dem Balken (Punkt 7)
+  document.getElementById('bar-labels').innerHTML =
+    '<div class="bar-label-seg" style="width:' + nettoPct + '%">Nettoaufwand<br>Firma</div>' +
+    '<div class="bar-label-seg" style="width:' + kstPct + '%">Körperschaft-<br>steuer</div>' +
+    '<div class="bar-label-seg" style="width:' + gewstPct + '%">Gewerbe-<br>steuer</div>';
+
+  // Donut-Chart (Punkt 9)
+  const r = 66, c = 2 * Math.PI * r;
+  const nettoArc = c * nettoPct / 100;
+  const kstArc = c * kstPct / 100;
+  const gewstArc = c * gewstPct / 100;
+
+  document.getElementById('donut-section').innerHTML =
+    '<div class="donut-wrap">' +
+      '<div class="donut-chart">' +
+        '<svg viewBox="0 0 160 160">' +
+          '<circle cx="80" cy="80" r="' + r + '" stroke="var(--c-nettoaufwand)" stroke-dasharray="' + nettoArc + ' ' + c + '" stroke-dashoffset="0"/>' +
+          '<circle cx="80" cy="80" r="' + r + '" stroke="var(--c-kst)" stroke-dasharray="' + kstArc + ' ' + c + '" stroke-dashoffset="-' + nettoArc + '"/>' +
+          '<circle cx="80" cy="80" r="' + r + '" stroke="var(--c-gewst)" stroke-dasharray="' + gewstArc + ' ' + c + '" stroke-dashoffset="-' + (nettoArc + kstArc) + '"/>' +
+        '</svg>' +
+        '<div class="donut-center">' +
+          '<div class="donut-center-value">' + fmtPct(fs.effektive_kostenquote) + '</div>' +
+          '<div class="donut-center-label">effektive Kosten</div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="donut-legend">' +
+        '<div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--c-nettoaufwand)"></span><span class="donut-legend-text">Nettoaufwand Firma</span><span class="donut-legend-val">' + fmtEur(fs.nettoaufwand) + '</span></div>' +
+        '<div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--c-kst)"></span><span class="donut-legend-text">Körperschaftsteuerersparnis</span><span class="donut-legend-val">' + fmtEur(fs.kst_ersparnis) + '</span></div>' +
+        '<div class="donut-legend-item"><span class="donut-legend-dot" style="background:var(--c-gewst)"></span><span class="donut-legend-text">Gewerbesteuerersparnis</span><span class="donut-legend-val">' + fmtEur(fs.gewst_ersparnis) + '</span></div>' +
+      '</div>' +
+    '</div>';
 
   let stufeInfo = '';
   if (stufe1 > 0 && stufe2 > 0) {
@@ -1190,52 +1285,84 @@ function renderBetrachtung1(fs, stufe1, stufe2, monate) {
     '<div class="breakdown-row breakdown-total">' +
       '<span class="breakdown-label">Nettoaufwand Firma p.a.</span>' +
       '<span class="breakdown-value">' + fmtEur(fs.nettoaufwand) + '</span>' +
-    '</div>' +
-    '<div style="text-align:right;font-size:.82rem;color:var(--primary);font-weight:700;margin-top:.25rem;">' +
-      'Firma trägt effektiv ' + fmtPct(fs.effektive_kostenquote) + ' des Beitrags' +
+    '</div>';
+
+  // Effektive Quote prominent (Punkt 8)
+  document.getElementById('effektiv-quote').innerHTML =
+    '<div class="effektiv-quote-box">' +
+      '<span class="effektiv-quote-label">Die Firma trägt effektiv</span>' +
+      '<span class="effektiv-quote-value">' + fmtPct(fs.effektive_kostenquote) + '</span>' +
     '</div>';
 }
 
-// ── Render: Betrachtung 2 ──
+// ── Render: Betrachtung 2 (Punkte 10, 11, 12) – Wasserfall umgedreht ──
 function renderBetrachtung2(g) {
   document.getElementById('gehalt-ergebnis').innerHTML =
-    '<div class="result-card-title">Für denselben privaten Sparbetrag (' + fmtEur(g.sparbetrag_pa) + '/Jahr) wäre nötig:</div>' +
-    '<table class="vergleich-table">' +
-      '<tr><th></th><th>pro Monat</th><th>pro Jahr</th></tr>' +
-      '<tr><td>Brutto-Gehaltserhöhung</td><td>' + fmtEur(g.brutto_erhoehung_pm) + '</td><td>' + fmtEur(g.brutto_erhoehung_pa) + '</td></tr>' +
-      '<tr><td>Davon Lohnsteuer + SolZ' + (g.kist_marginal > 0 ? ' + KiSt' : '') + '</td><td style="color:#c0392b;">- ' + fmtEur(g.steuerabzug_pm) + '</td><td style="color:#c0392b;">- ' + fmtEur(g.steuerabzug_pa) + '</td></tr>' +
-      '<tr class="highlight-row"><td>Netto beim GGF (= Sparbetrag)</td><td>' + fmtEur(g.netto_pm) + '</td><td>' + fmtEur(g.sparbetrag_pa) + '</td></tr>' +
-    '</table>' +
+    '<div class="result-card-title">' + fmtEur(g.sparbetrag_pa) + '/Jahr sollen in die Altersvorsorge fließen – was würde eine Gehaltserhöhung kosten?</div>' +
+    '<div class="wasserfall-grid">' +
+      '<div class="wasserfall-card highlight">' +
+        '<div class="wasserfall-card-title">Weg 1: bAV (firmenfinanziert)</div>' +
+        '<div class="wf-row"><span class="wf-label">Beitrag in die bAV</span><span class="wf-value">' + fmtEurPm(g.sparbetrag_pm) + '</span></div>' +
+        '<div class="wf-row"><span class="wf-label">Steuerbelastung beim GF</span><span class="wf-value positive">0 €</span></div>' +
+        '<div class="wf-result"><span>Firmenaufwand</span><span>' + fmtEurPm(g.sparbetrag_pm) + '</span></div>' +
+      '</div>' +
+      '<div class="wasserfall-card">' +
+        '<div class="wasserfall-card-title">Weg 2: Gehaltserhöhung</div>' +
+        '<div class="wf-row"><span class="wf-label">Netto beim Geschäftsführer (= Sparbetrag)</span><span class="wf-value">' + fmtEurPm(g.netto_pm) + '</span></div>' +
+        '<div class="wf-row"><span class="wf-label">Lohnsteuer + SolZ' + (g.kist_marginal > 0 ? ' + KiSt' : '') + '</span><span class="wf-value negative">+ ' + fmtEurPm(g.steuerabzug_pm) + '</span></div>' +
+        '<div class="wf-result"><span>Nötige Brutto-Gehaltserhöhung</span><span>' + fmtEurPm(g.brutto_erhoehung_pm) + '</span></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="vorteil-banner">' +
+      '<div class="vorteil-banner-label">Mehrkostenvergleich pro Jahr</div>' +
+      '<div class="vorteil-banner-value">' + fmtEur(g.brutto_erhoehung_pa) + ' vs. ' + fmtEur(g.sparbetrag_pa) + '</div>' +
+      '<div class="vorteil-banner-sub">Eine Gehaltserhöhung wäre ' + fmtEur(g.brutto_erhoehung_pa - g.sparbetrag_pa) + '/Jahr teurer als der bAV-Weg</div>' +
+    '</div>' +
     '<div style="margin-top:.75rem;font-size:.82rem;color:var(--text-muted);">' +
-      'Grenzsteuersatz: ' + fmtPct(g.grenzsteuersatz) +
-      ' | Gesamtabzugsquote: ' + fmtPct(g.gesamtabzugsquote) +
+      'Grenzsteuersatz: ' + fmtPct(g.grenzsteuersatz) + ' | Gesamtabzugsquote: ' + fmtPct(g.gesamtabzugsquote) +
     '</div>';
 }
 
-// ── Render: Betrachtung 3 ──
+// ── Render: Betrachtung 3 (Punkte 13, 14, 15) – Wasserfall ──
 function renderBetrachtung3(v, fs) {
+  const beitragPa = fs.beitrag_pa;
+  // Für Ausschüttungsweg: Firma braucht Vorsteuergewinn um Ausschüttung zu finanzieren
+  const ausschuettungBrutto = v.ausschuettung.firmenaufwand_pa;
+
   document.getElementById('ausschuettung-ergebnis').innerHTML =
-    '<div class="result-card-title">Vergleich: Welchen Aufwand hat die Firma für ' + fmtEur(fs.beitrag_pa) + '/Jahr Altersvorsorge?</div>' +
-    '<table class="vergleich-table">' +
-      '<tr><th></th><th>bAV (firmenfinanziert)</th><th>Gewinnausschüttung</th></tr>' +
-      '<tr><td>Firmen-Aufwand p.a.</td><td>' + fmtEur(v.bav.firmenaufwand_pa) + '</td><td>' + fmtEur(v.ausschuettung.firmenaufwand_pa) + '</td></tr>' +
-      '<tr><td>Steuerersparnis</td><td style="color:var(--c-vorteil);">' + fmtEur(v.bav.steuerersparnis) + '</td><td>0 €</td></tr>' +
-      '<tr><td>Nettoaufwand Firma</td><td><strong>' + fmtEur(v.bav.nettoaufwand) + '</strong></td><td><strong>' + fmtEur(v.ausschuettung.nettoaufwand) + '</strong></td></tr>' +
-      '<tr class="highlight-row"><td>Vorteil bAV</td><td colspan="2" style="text-align:center;font-size:1.05rem;">' + fmtEur(v.vorteil_bav) + ' günstiger</td></tr>' +
-    '</table>' +
-    '<div style="margin-top:.75rem;font-size:.82rem;color:var(--text-muted);">' +
-      'Die Gewinnausschüttung enthält keinen Betriebsausgabenabzug. Die bAV spart ' + fmtPct(1 - fs.effektive_kostenquote) + ' Firmensteuern – das ist der strukturelle Vorteil.' +
+    '<div class="result-card">' +
+    '<div class="result-card-title">' + fmtEur(beitragPa) + '/Jahr sollen in die Altersvorsorge fließen – welcher Weg ist günstiger?</div>' +
+    '<div class="wasserfall-grid">' +
+      '<div class="wasserfall-card highlight">' +
+        '<div class="wasserfall-card-title">Weg 1: bAV (firmenfinanziert)</div>' +
+        '<div class="wf-row"><span class="wf-label">Beitrag in die bAV</span><span class="wf-value">' + fmtEur(beitragPa) + '</span></div>' +
+        '<div class="wf-row"><span class="wf-label">Körperschaftsteuerersparnis</span><span class="wf-value positive">- ' + fmtEur(fs.kst_ersparnis) + '</span></div>' +
+        '<div class="wf-row"><span class="wf-label">Gewerbesteuerersparnis</span><span class="wf-value positive">- ' + fmtEur(fs.gewst_ersparnis) + '</span></div>' +
+        '<div class="wf-result"><span>Nettoaufwand Firma</span><span>' + fmtEur(fs.nettoaufwand) + '</span></div>' +
+      '</div>' +
+      '<div class="wasserfall-card">' +
+        '<div class="wasserfall-card-title">Weg 2: Gewinnausschüttung</div>' +
+        '<div class="wf-row"><span class="wf-label">Brutto-Ausschüttung nötig</span><span class="wf-value">' + fmtEur(ausschuettungBrutto) + '</span></div>' +
+        '<div class="wf-row"><span class="wf-label">Abgeltungsteuer + SolZ beim GF</span><span class="wf-value negative">- ' + fmtEur(ausschuettungBrutto - beitragPa) + '</span></div>' +
+        '<div class="wf-row"><span class="wf-label">Netto beim GF für Vorsorge</span><span class="wf-value">' + fmtEur(beitragPa) + '</span></div>' +
+        '<div class="wf-result"><span>Firmenaufwand (kein Steuerabzug)</span><span>' + fmtEur(ausschuettungBrutto) + '</span></div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="vorteil-banner">' +
+      '<div class="vorteil-banner-label">Vorteil bAV gegenüber Gewinnausschüttung</div>' +
+      '<div class="vorteil-banner-value">' + fmtEur(v.vorteil_bav) + '/Jahr günstiger</div>' +
+      '<div class="vorteil-banner-sub">Nettoaufwand bAV: ' + fmtEur(fs.nettoaufwand) + ' vs. Ausschüttung: ' + fmtEur(ausschuettungBrutto) + '</div>' +
+    '</div>' +
     '</div>';
 }
 
-// ── Leistungsdarstellung ──
+// ── Leistungsdarstellung (Punkte 16, 17, 18, 19) ──
 function berechneLeistung(e) {
   const gebJahr = parseInt(e.geburtsdatum.split('-')[0]);
   const eintrittsalter = AKTUELLES_JAHR - gebJahr;
   const laufzeit = 67 - eintrittsalter;
   const produkt = Rechenkern.waehleProdukt(eintrittsalter, PRODUKT_REGELN);
 
-  // Laufzeit-Bar
   const pct = Math.min(100, Math.max(0, (eintrittsalter / 67) * 100));
   document.getElementById('laufzeit-bar').innerHTML =
     '<div class="laufzeit-bar-title">Laufzeit bis Renteneintritt</div>' +
@@ -1246,7 +1373,6 @@ function berechneLeistung(e) {
       '<div class="laufzeit-label"><span class="lz-val">67</span><span class="lz-desc">Renteneintritt</span></div>' +
     '</div>';
 
-  // Leistung berechnen (pro Stufe)
   let leistungDV = null, leistungUK = null;
 
   if (e.beitragStufe1 > 0) {
@@ -1271,7 +1397,7 @@ function berechneLeistung(e) {
     leistungUK = res[0];
   }
 
-  // Stage-Cards
+  // Stage-Cards (Punkte 16, 17)
   const stageEl = document.getElementById('stage-cards');
   const hasBoth = leistungDV && leistungUK;
   stageEl.className = 'stage-grid' + (hasBoth ? '' : ' single');
@@ -1287,7 +1413,7 @@ function berechneLeistung(e) {
   }
   stageEl.innerHTML = stageHTML;
 
-  // Hero-Card (Gesamt)
+  // Hero-Card (Punkt 18)
   const gesamt = {
     kapital_gar: (leistungDV ? leistungDV.garantiertes_kapital : 0) + (leistungUK ? leistungUK.garantiertes_kapital : 0),
     kapital_ue: (leistungDV ? leistungDV.kapital_inkl_ueberschuss : 0) + (leistungUK ? leistungUK.kapital_inkl_ueberschuss : 0),
@@ -1297,10 +1423,12 @@ function berechneLeistung(e) {
 
   const firmensteuer = Firmensteuern.firmensteuerErsparnis(e.beitragNeuPa, e.hebesatz);
   const hebel = firmensteuer.nettoaufwand > 0 ? (e.beitragNeuPa / firmensteuer.nettoaufwand) : 0;
+  const hebelPctAufwand = firmensteuer.nettoaufwand > 0 ? (1 / hebel * 100) : 100;
+  const hebelPctBeitrag = 100;
 
   document.getElementById('hero-card-wrap').innerHTML =
     '<div class="hero-card">' +
-      '<div class="hero-card-label">Ihre Gesamtleistung bei Renteneintritt (Alter 67)</div>' +
+      '<div class="hero-card-label">Gesamtleistung bei Renteneintritt (Alter 67)</div>' +
       '<div class="hero-card-values">' +
         '<div>' +
           '<div class="hero-card-main">' + fmtEur(gesamt.kapital_ue) + '</div>' +
@@ -1313,23 +1441,62 @@ function berechneLeistung(e) {
           '<div class="hero-card-garantie">(davon garantiert: ' + fmtEurPm(gesamt.rente_gar) + ')</div>' +
         '</div>' +
       '</div>' +
-      '<div class="hero-card-hebel">' +
-        '<span class="checkmark">&#10003;</span> Die Firma trägt effektiv nur ' + fmtEur(firmensteuer.nettoaufwand) + '/Jahr nach Steuern ' +
-        'für ' + fmtEur(e.beitragNeuPa) + '/Jahr Altersvorsorge – der Hebel: 1 : ' + hebel.toFixed(2) +
+      // Hebel-Darstellung (Punkt 19)
+      '<div class="hebel-section">' +
+        '<div class="hebel-row">' +
+          '<div style="min-width:120px;">' +
+            '<div class="hebel-label">Firmenaufwand</div>' +
+            '<div class="hebel-value">' + fmtEur(firmensteuer.nettoaufwand) + '</div>' +
+          '</div>' +
+          '<div class="hebel-bar-wrap">' +
+            '<div class="hebel-bar aufwand" style="width:' + hebelPctAufwand + '%">' + fmtPct(firmensteuer.effektive_kostenquote) + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="hebel-row">' +
+          '<div style="min-width:120px;">' +
+            '<div class="hebel-label">bAV-Beitrag</div>' +
+            '<div class="hebel-value">' + fmtEur(e.beitragNeuPa) + '</div>' +
+          '</div>' +
+          '<div class="hebel-bar-wrap">' +
+            '<div class="hebel-bar beitrag" style="width:' + hebelPctBeitrag + '%">100 %</div>' +
+          '</div>' +
+        '</div>' +
+        '<div class="hebel-text">' +
+          '<span class="checkmark">&#10003;</span> Hebelverhältnis: 1 : ' + hebel.toFixed(2) + ' – für jeden Euro Nettoaufwand fließen ' + hebel.toFixed(2) + ' € in die Versorgung' +
+        '</div>' +
       '</div>' +
     '</div>';
 }
 
+// Stage-Card Render (Punkte 16, 17)
 function renderStageCard(titel, untertitel, beitragPm, einzahlung, laufzeit, leistung) {
   return '<div class="stage-card">' +
     '<div class="stage-card-title">' + titel + '</div>' +
     '<div class="stage-card-subtitle">' + untertitel + '</div>' +
-    '<div class="stage-card-beitrag">' + fmtEur(beitragPm) + '/Monat &rarr; ' + fmtEur(einzahlung) + ' über ' + laufzeit + ' Jahre</div>' +
+    '<div class="stage-beitrag-highlight">' +
+      '<div class="stage-beitrag-left">' +
+        '<div class="stage-beitrag-pm">' + fmtEur(beitragPm) + '</div>' +
+        '<div class="stage-beitrag-pm-label">pro Monat</div>' +
+      '</div>' +
+      '<div class="stage-beitrag-arrow">&rarr;</div>' +
+      '<div class="stage-beitrag-right">' +
+        '<div class="stage-beitrag-total">' + fmtEur(einzahlung) + '</div>' +
+        '<div class="stage-beitrag-total-label">über ' + laufzeit + ' Jahre</div>' +
+      '</div>' +
+    '</div>' +
     '<hr class="stage-divider">' +
-    '<div class="stage-row"><span class="stage-row-label">Kapital</span><span class="stage-row-value">' + fmtEur(leistung.kapital_inkl_ueberschuss) + '</span></div>' +
-    '<div class="stage-row-hint">(gar.: ' + fmtEur(leistung.garantiertes_kapital) + ')</div>' +
-    '<div class="stage-row"><span class="stage-row-label">Rente</span><span class="stage-row-value">' + fmtEurPm(leistung.bruttorente) + '</span></div>' +
-    '<div class="stage-row-hint">(gar.: ' + fmtEurPm(leistung.garantierte_rente) + ')</div>' +
+    '<div class="stage-leistung-grid">' +
+      '<div class="stage-leistung-item">' +
+        '<div class="stage-leistung-label">Kapitalleistung</div>' +
+        '<div class="stage-leistung-value">' + fmtEur(leistung.kapital_inkl_ueberschuss) + '</div>' +
+        '<div class="stage-leistung-hint">gar. ' + fmtEur(leistung.garantiertes_kapital) + '</div>' +
+      '</div>' +
+      '<div class="stage-leistung-item">' +
+        '<div class="stage-leistung-label">Monatliche Rente</div>' +
+        '<div class="stage-leistung-value">' + fmtEurPm(leistung.bruttorente) + '</div>' +
+        '<div class="stage-leistung-hint">gar. ' + fmtEurPm(leistung.garantierte_rente) + '</div>' +
+      '</div>' +
+    '</div>' +
   '</div>';
 }
 
